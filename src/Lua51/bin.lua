@@ -47,7 +47,7 @@ local DumpBinary = {
 		if #s ~= 0 then
 			return DumpBinary.Int32(#s+1)..s.."\0"
 		else
-			return "\0\0\0\0";
+			return "\1\0";
 		end
 	end,--[[
 	Integer = function(n)
