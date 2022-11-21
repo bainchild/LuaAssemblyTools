@@ -69,16 +69,19 @@ local Chunk = {
             end
             return v
         end
+
+        local function DumpSize_t(num)
+            local v = ""
+            for i = 1, file.SizeT do
+                v = v .. string.char(num % 256)
+                num = math.floor(num / 256)
+            end
+            return v
+        end
         
         local function DumpString(s)
-            if not s or s:len() == 0 then
-                return DumpInt(1) .. "\0"
-                
-                -- wat? this doesn't work...
-                --return s = string.rep("\0", file.SizeT)-- 4)
-            else
-                return DumpInt(s:len() + 1) .. s .. "\0"
-            end
+            if s==nil then return '\0' end
+            return DumpSize_t(#s + 1) .. s .. "\0"
         end
         
         local c = ""
