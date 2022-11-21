@@ -55,7 +55,7 @@ local DumpBinary = {
 	end,]]
 	Int8 = function(n)
 		return string.char(n)
-	end,--[[
+	end,
 	Int16 = function(n)
 		error("DumpBinary.Int16() Not Implemented")
 	end,
@@ -105,7 +105,7 @@ local DumpBinary = {
 		x, byte = grab_byte(sign * 128 + x)
 		v = v..byte -- 63:56
 		return v
-	end,]]
+	end,
     --[[
     Opcode = function(op)
         local c0, c1, c2, c3
