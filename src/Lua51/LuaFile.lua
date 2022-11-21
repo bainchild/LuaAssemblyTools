@@ -15,7 +15,7 @@ local LuaFile = {
             NumberSize = 8,
             IsFloatingPoint = true,
             Main = Chunk:new(),
-        }, { __index = self, __newindex = function() error"Cannot set new fields on LuaFile" end })
+        }, { __index = self })
     end,
 
     Compile = function(self, verify)
