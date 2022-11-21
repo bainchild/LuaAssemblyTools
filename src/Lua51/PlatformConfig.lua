@@ -1,6 +1,6 @@
 -- Mostly from ChunkSpy. Used in loading chunks and converting them to different platforms.
 
-local Configuration = require('PlatformTypes')
+local Configuration = LAT.Lua51.PlatformTypes
 
 local ConvertFrom = {}
 local ConvertTo = {}
