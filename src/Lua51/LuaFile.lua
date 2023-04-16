@@ -44,7 +44,7 @@ local LuaFile = {
     
     Verify = function(self)
         self.Main:Verify()
-    end,
+    end
 }
 
 return LuaFile

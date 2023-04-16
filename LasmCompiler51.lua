@@ -19,6 +19,9 @@ while true do
         options.Nocompile = true
     elseif b == "-s" or b == "-strip" then
         options.Strip = true
+    elseif b == "-p" or b == "-platform" then
+        options.Platform = arg[i+1]
+        i=i+1
     else
         options.File = a
     end
@@ -42,6 +45,15 @@ if not ok then
 end
 if options.Strip then
     file:StripDebugInfo()
+end
+if options.Platform then
+    local PlatformTypes = LAT.Lua51.PlatformTypes
+    assert(PlatformTypes[options.Platform]~=nil,"Non-existant/unsupported platform '"..tostring(options.Platform).."'")
+    for i,v in pairs(PlatformTypes[options.Platform]) do
+        if i~="Description" and i~="NumberType" then
+            file[i]=v
+        end
+    end
 end
 local code = file:Compile()
 local ok, err = loadstring(code)

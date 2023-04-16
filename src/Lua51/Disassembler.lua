@@ -43,7 +43,7 @@ local function Disassemble(chunk)
         if file.IntegerSize > file.SizeT then
             error("IntegerSize cannot be greater than SizeT")
         end
-        local x = Read(file.SizeT)
+        local x = Read(file.IntegerSize)
         if not x or x:len() == 0 then
             error("Could not load integer")
         else

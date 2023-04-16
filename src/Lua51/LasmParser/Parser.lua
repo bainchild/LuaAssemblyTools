@@ -394,18 +394,18 @@ local Parser = {
         patchJumps()
         
         local instr1 = func.Instructions[func.Instructions.Count - 1]
+        local instr2 = LAT.Lua51.Instruction:new("RETURN")
+        instr2.A = 0
+        instr2.B = 1
+        instr2.C = 0
         if instr1 then
             if instr1.Opcode ~= "RETURN" then
-                local instr2 = LAT.Lua51.Instruction:new("RETURN")
-                instr2.A = 0
-                instr2.B = 1
-                instr2.C = 0
                 func.Instructions:Add(instr2)
             end
         else
             func.Instructions:Add(instr2)
         end
-        
+        --print(func.Instructions.Count)
         return file
     end,
 }

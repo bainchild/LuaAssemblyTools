@@ -23,8 +23,9 @@ local Chunk = {
                     if v == nil then
                         t.Count = t.Count - 1
                     else
-                        if k == "Count" then rawset(t, k, v) end
-                        if getmetatable(t).table[k] == nil then
+                        if k == "Count" then 
+                            rawset(t, k, v)
+                        elseif getmetatable(t).table[k] == nil then
                             t.Count = t.Count + 1
                         end
                     end
@@ -94,6 +95,7 @@ local Chunk = {
         c = c .. LAT.Lua51.DumpBinary.Int8(self.MaxStackSize)
         
         -- Instructions
+        require("debugger")()
         c = c .. DumpInt(self.Instructions.Count)
         for i = 1, self.Instructions.Count do
             c = c .. LAT.Lua51.DumpBinary.Opcode(self.Instructions[i - 1])
