@@ -1,9 +1,11 @@
 local Chunk = LAT.Lua51.Chunk
 local DumpBinary = LAT.Lua51.DumpBinary
+local PlatformTypes = LAT.Lua51.PlatformTypes
 
 local LuaFile = {
     -- Default to x86 standard
-    new = function(self)
+    new = function(self,standard)
+        if standard==nil then standard = "x86-s" end
         return setmetatable({
             Identifier = "\027Lua",
             Version = 0x51,
@@ -15,7 +17,16 @@ local LuaFile = {
             NumberSize = 8,
             IsFloatingPoint = true,
             Main = Chunk:new(),
-        }, { __index = self })
+        }, { __index = self }):ChangePlatform(standard)
+    end,
+
+    ChangePlatform = function(self,platform)
+        assert(PlatformTypes[platform]~=nil,"Unknown platform '"..platform.."'")
+        for i,v in pairs(PlatformTypes[platform]) do
+            if i~="Description" and i~="NumberType" then
+                self[i]=v
+            end
+        end
     end,
 
     Compile = function(self, verify)

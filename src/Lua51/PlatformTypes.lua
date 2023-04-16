@@ -1,5 +1,5 @@
 return {  
-    ["x86 standard"] = {    
+    ["x86-s"] = {    
         Description = "x86 Standard (32-bit, little endian, double)",    
         BigEndian = false,             -- 1 = little endian    
         IntegerSize = 4,                -- (data type sizes in bytes)    
@@ -9,7 +9,7 @@ return {
         IsFloatingPoint = true,        -- (0) type of lua_Number    
         NumberType = "double",         -- used for lookups  
     },  
-    ["big endian int"] = {    
+    ["x64-be-i"] = {    
         Description = "(32-bit, big endian, int)",    
         BigEndian = true,
         IntegerSize = 4,
