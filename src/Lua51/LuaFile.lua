@@ -1,11 +1,26 @@
 local Chunk = LAT.Lua51.Chunk
 local DumpBinary = LAT.Lua51.DumpBinary
 local PlatformTypes = LAT.Lua51.PlatformTypes
+local running_standard = PlatformTypes["x86-s"]
+local tried_dump = false
 
 local LuaFile = {
     -- Default to x86 standard
     new = function(self,standard)
-        if standard==nil then standard = "x86-s" end
+        if not tried_dump then
+            tried_dump=true
+            if ('').dump then
+                local n = {}
+                for i,v in pairs(LAT.Lua51.Disassemble(('').dump(function()end))) do
+                    if i=="Identifier" or i=="Version" or i=="Format" or i=="BigEndian"
+                    or i=="IntegerSize" or i=="SizeT" or i=="InstructionSize" or i=="NumberSize" or i=="IsFloatingPoint" then
+                        n[i]=v
+                    end
+                end
+                running_standard=n
+            end           
+        end
+        if standard==nil then standard = running_standard end
         return setmetatable({
             Identifier = "\027Lua",
             Version = 0x51,
@@ -21,14 +36,20 @@ local LuaFile = {
     end,
 
     ChangePlatform = function(self,platform)
+        if type(platform)=="table" then return self:ApplyProfile(platform) end
         assert(PlatformTypes[platform]~=nil,"Unknown platform '"..platform.."'")
-        for i,v in pairs(PlatformTypes[platform]) do
-            if i~="Description" and i~="NumberType" then
+        return self:ApplyProfile(PlatformTypes[platform])
+    end,
+
+    ApplyProfile = function(self,profile)
+        for i,v in pairs(profile) do
+            if i~="Main" and self[i]~=nil then
                 self[i]=v
             end
         end
+        return self
     end,
-
+    
     Compile = function(self, verify)
         local c = ""
         c = c .. self.Identifier

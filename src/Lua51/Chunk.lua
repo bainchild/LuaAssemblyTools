@@ -95,7 +95,6 @@ local Chunk = {
         c = c .. LAT.Lua51.DumpBinary.Int8(self.MaxStackSize)
         
         -- Instructions
-        require("debugger")()
         c = c .. DumpInt(self.Instructions.Count)
         for i = 1, self.Instructions.Count do
             c = c .. LAT.Lua51.DumpBinary.Opcode(self.Instructions[i - 1])

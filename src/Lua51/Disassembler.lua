@@ -7,8 +7,8 @@ local function Disassemble(chunk)
     if chunk == nil then
         error("File is nil!")
     end
-	local index = 1
-	local big = false;
+    local index = 1
+    local big = false;
     local file = LAT.Lua51.LuaFile:new()
     local loadNumber = nil
     
