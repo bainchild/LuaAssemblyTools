@@ -404,13 +404,9 @@ local Lexer = {
         
         function tok:ConsumeIdent(data)
             local t = self:Peek()
-            if t.Type == 'Ident' then
+            if t.Type == 'Ident' and (data and t.Data==data or data==nil) then
                 tok:Get()
-                if data then
-                    return t.Data == data
-                else
-                    return t.Data
-                end
+                return t.Data
             else
                 return nil
             end

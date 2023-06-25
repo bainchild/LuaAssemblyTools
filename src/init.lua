@@ -18,6 +18,7 @@ LAT.Lua51.Disassemble = require 'Lua51.Disassembler'
 LAT.Lua51.Dump = require 'Lua51.Dumper'
 LAT.Lua51.Decompile = { }
 LAT.Lua51.Decompile.LASM = require 'Lua51.Decompiler.LASM'
+LAT.Lua51.Decompile.Lua = require 'Lua51.Decompiler.Lua'
 
 LAT.Lua51.Lexer = require 'Lua51.LasmParser.Lexer'
 LAT.Lua51.Parser = require 'Lua51.LasmParser.Parser'

@@ -199,7 +199,7 @@ local Parser = {
             elseif tok:ConsumeKeyword".func" or tok:ConsumeKeyword".function" then
                 local n = LAT.Lua51.Chunk:new()
                 n.FirstLine = tok:Peek(-1).Line
-                n.Name = tok:Is'String' and readString() or "LASM Chunk"
+                n.Name = (tok:Is'String' and readString()) --[[or (tok:Is'Ident' and tok:Get().Data)]] or "LASM Chunk"
                 func.Protos:Add(n)
                 funcStack[#funcStack + 1] = func
                 func = n
@@ -270,20 +270,30 @@ local Parser = {
                 elseif (tok:Is'Keyword' and (tok:Peek().Data == "true" or tok:Peek().Data == "false" or tok:Peek().Data == "nil" or tok:Peek().Data == "null")) or tok:Is'String' then
                     return (isRK and 256 or 0) + manageConstant(false)
                 elseif tok:Peek().Data == 'p' or tok:Peek().Data == 'proto' then
+                    tok:Get()
                     local name
                     if tok:Is'String' then
                         name = readString()
                     else
                         if not tok:ConsumeSymbol'(' then parseError"'(' expected" end
-                        name = tok:Get().Data
+                        if tok:Is'String' then
+                            name = readString()
+                        else
+                            name = tok:Get().Data
+                        end
                         if not tok:ConsumeSymbol')' then parseError"')' expected" end
                     end
-                    for _, v in pairs(func.Protos) do
+                    for i=1,func.Protos.Count do
+                        local i = i-1
+                        local v = func.Protos[i]
                         if v.Name == name then
-                            return (isRK and 256 or 0) + _
+                            return (isRK and 256 or 0) + i
                         end
                     end
                     parseError("Proto '" .. name .. "' was not found")
+                -- else
+                --     print("FALLTHROUGH ??")
+                --     print(debug.traceback())
                 end
                 return readNum()
             end
